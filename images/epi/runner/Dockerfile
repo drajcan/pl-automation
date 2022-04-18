@@ -18,8 +18,9 @@ RUN cd $TARGET_FOLDER_NAME && \
     node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js postinstall"
 
 #remove unnecessary files after the installation
-RUN cd $TARGET_FOLDER_NAME && \
-    find . -name package-lock.json -exec rm {} \;
+RUN find . -name package-lock.json -exec rm {} \;
+
+RUN cd $TARGET_FOLDER_NAME && find . -type d \( -path ./node_modules \) -prune -o -name 'node_modules' -exec rm -rf {} \; || true
 
 RUN cd $TARGET_FOLDER_NAME && \
     echo 'npm run server & \n tail -f /dev/null' >> run.sh
