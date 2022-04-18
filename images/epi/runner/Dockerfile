@@ -21,12 +21,11 @@ RUN cd $TARGET_FOLDER_NAME && \
 RUN cd $TARGET_FOLDER_NAME && \
     find . -name package-lock.json -exec rm {} \;
 
-#RUN cd $TARGET_FOLDER_NAME && \
-#    find . -type d -name node_modules -exec rmdir {} \;
-
 RUN cd $TARGET_FOLDER_NAME && \
-    echo 'npm run server & \n sleep 1m \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js ssapps-and-wallets-build"' >> execute-build.sh
-RUN cd $TARGET_FOLDER_NAME && cat execute-build.sh
+    echo 'npm run server & \n tail -f /dev/null' >> run.sh
+RUN cd $TARGET_FOLDER_NAME && cat run.sh
+
+EXPOSE 8080/tcp
 
 CMD cd $TARGET_FOLDER_NAME && \
-    bash execute-build.sh
+    bash run.sh
