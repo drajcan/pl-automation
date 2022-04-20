@@ -1,0 +1,3 @@
+. values.sh
+docker tag $BUILDER_REPO_NAME:latest $BUILDER_REPO_NAME:$VERSION
+docker tag $RUNNER_REPO_NAME:latest $RUNNER_REPO_NAME:$VERSION
