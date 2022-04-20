@@ -1,2 +1,2 @@
 . values.sh
-docker rm -f $(docker ps -q -f name=$BUILDER_NAME)
+docker rm -f $(docker ps -aq -f name=$BUILDER_NAME)

@@ -1,0 +1,19 @@
+FROM node:16.14.2-alpine
+
+WORKDIR "/ePI-workspace"
+ENV SOURCE_FOLDER_NAME="tmp/epi"
+
+COPY $SOURCE_FOLDER_NAME/apihub-root apihub-root
+COPY $SOURCE_FOLDER_NAME/privatesky privatesky
+COPY $SOURCE_FOLDER_NAME/gtin-resolver gtin-resolver
+COPY $SOURCE_FOLDER_NAME/gtin-dsu-wizard gtin-dsu-wizard
+COPY $SOURCE_FOLDER_NAME/reporting-service reporting-service
+COPY $SOURCE_FOLDER_NAME/node_modules node_modules
+COPY $SOURCE_FOLDER_NAME/env.json.devel $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
+
+RUN printf 'npm run server & \n tail -f /dev/null' >> run.sh
+RUN cat run.sh
+
+EXPOSE 8080/tcp
+
+CMD /bin/sh run.sh
