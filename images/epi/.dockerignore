@@ -1,0 +1,15 @@
+#preventing node_modules to be copied into docker image. We don't need them.
+**/node_modules
+**/external-volume
+!*/*/node_modules
+!*/*/themes/*/node_modules
+!**/cardinal/node_modules
+!**/gtin-resolver/node_modules
+!**/webcardinal/node_modules
+!**/reporting-service/node_modules
+**/@stencil
+**/prismjs
+**/typescript
+**/.bin
+**/package-lock.json
+**/.git
