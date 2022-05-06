@@ -1,26 +1,26 @@
 FROM node:16.14.2-alpine
 
+# Switch to prexisting user 'node'
+# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+USER node
 WORKDIR "/ePI-workspace"
 ENV SOURCE_FOLDER_NAME="tmp/epi"
 
-COPY $SOURCE_FOLDER_NAME/apihub-root apihub-root
-COPY $SOURCE_FOLDER_NAME/bin bin
-COPY $SOURCE_FOLDER_NAME/cardinal cardinal
-COPY $SOURCE_FOLDER_NAME/demiurge demiurge
-COPY $SOURCE_FOLDER_NAME/dsu-fabric-ssapp dsu-fabric-ssapp
-COPY $SOURCE_FOLDER_NAME/gtin-dsu-wizard gtin-dsu-wizard
-COPY $SOURCE_FOLDER_NAME/gtin-resolver gtin-resolver
-COPY $SOURCE_FOLDER_NAME/leaflet-ssapp leaflet-ssapp
-COPY $SOURCE_FOLDER_NAME/privatesky privatesky
-COPY $SOURCE_FOLDER_NAME/reporting-service reporting-service
-COPY $SOURCE_FOLDER_NAME/themes themes
-COPY $SOURCE_FOLDER_NAME/webcardinal webcardinal
-COPY $SOURCE_FOLDER_NAME/node_modules node_modules
-
-COPY aliasSSIPatches ./
-RUN cd cardinal && ls -a
-
-COPY $SOURCE_FOLDER_NAME/env.json.devel $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/apihub-root apihub-root
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/bin bin
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/cardinal cardinal
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/demiurge demiurge
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/dsu-fabric-ssapp dsu-fabric-ssapp
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-dsu-wizard gtin-dsu-wizard
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-resolver gtin-resolver
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/leaflet-ssapp leaflet-ssapp
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/privatesky privatesky
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/reporting-service reporting-service
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/themes themes
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/webcardinal webcardinal
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/node_modules node_modules
+COPY --chown=1000:1000 aliasSSIPatches ./
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/env.json.devel $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
 
 RUN printf 'npm run server & \n sleep 1m \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js epi-ssapps-and-wallets-build"' >> execute-build.sh
 RUN cat execute-build.sh
