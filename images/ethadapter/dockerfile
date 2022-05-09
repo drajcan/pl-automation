@@ -1,0 +1,42 @@
+#
+# "Base" Docker image containing the cloned software with initial build steps.
+# This (base) image is never being used at runtime and will not be deployed anywhere.
+# It is an important part of the multi-stage docker build for "builder" and the "runner" image.
+#
+FROM node:16.14.2 AS base
+
+# GIT_BRANCH=Branch/Tag/Commit Hash to clone from https://github.com/PharmaLedger-IMI/epi-workspace - Defaults to master
+ARG GIT_BRANCH
+ENV GIT_BRANCH=${GIT_BRANCH:-master}
+ARG SOURCE="/tmp/epi"
+
+RUN git clone -b ${GIT_BRANCH} --single-branch --depth 1 https://github.com/PharmaLedger-IMI/epi-workspace.git ${SOURCE} && \
+    cd ${SOURCE} && \
+    npm run dev-install && \
+    node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js postinstall"
+
+RUN cd ${SOURCE}/ethadapter/EthAdapter && npm install --unsafe-perm --production
+
+# Remove all Git and GitHub related files and directories - see https://gist.github.com/facelordgists/80e868ff5e315878ecd6
+RUN find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" -o -name ".github" \) -exec rm -rf -- {} +
+# -----------------------------------------------------------------------------------
+#
+# "Builder" image for creating the Apps at initial and installation ans subsequent upgrades.
+# It does not expose any ports and does not serve any http traffic to users!
+#
+# Sample for building:
+# docker build --target=builder --build-arg GIT_BRANCH=master -t epi:master-builder --rm=false --pull --network host -f=Dockerfile .
+#
+FROM node:16.14.2-alpine as builder
+
+WORKDIR "/ePI-workspace"
+ARG SOURCE="/tmp/epi"
+
+COPY --from=base $SOURCE/ethadapter ethadapter
+COPY --from=base $SOURCE/privatesky privatesky
+
+WORKDIR /ePI-workspace/ethadapter/EthAdapter
+
+EXPOSE 3000
+
+CMD [ "node" , "index.js" ]
