@@ -7,7 +7,7 @@ COPY $SOURCE_FOLDER_NAME/ethadapter ethadapter
 COPY $SOURCE_FOLDER_NAME/privatesky privatesky
 
 WORKDIR /ePI-workspace/ethadapter/EthAdapter
-
+RUN ls -la
 EXPOSE 3000
 
 CMD [ "node" , "index.js" ]

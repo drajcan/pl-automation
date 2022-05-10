@@ -1,0 +1,3 @@
+#preventing node_modules to be copied into docker image. We don't need them.
+**/.env
+**/k8s
