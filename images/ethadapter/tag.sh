@@ -1,0 +1,2 @@
+. values.sh
+docker tag $ETH_ADAPTER_REPO_NAME:latest $ETH_ADAPTER_REPO_NAME:$VERSION
