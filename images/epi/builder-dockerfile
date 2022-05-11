@@ -23,7 +23,7 @@ COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/trust-loader-config trust-loader-conf
 COPY --chown=1000:1000 aliasSSIPatches ./
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md ./
 
-RUN printf 'npm run server & \n sleep 1m \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js epi-ssapps-and-wallets-build"' >> execute-build.sh
+RUN printf 'npm run server & \n sleep 1m \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js epi-ssapps-and-wallets-build" \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./node_modules/octopus/scripts/run patch"' >> execute-build.sh
 RUN cat execute-build.sh
 
 CMD /bin/sh execute-build.sh
