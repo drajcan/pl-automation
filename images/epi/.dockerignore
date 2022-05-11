@@ -1,6 +1,7 @@
 #preventing node_modules to be copied into docker image. We don't need them.
 **/node_modules
 **/external-volume
+!**/trust-loader-config/external-volume
 !*/*/node_modules
 !*/*/themes/*/node_modules
 !**/cardinal/node_modules

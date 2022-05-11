@@ -19,8 +19,9 @@ COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/reporting-service reporting-service
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/themes themes
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/webcardinal webcardinal
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/node_modules node_modules
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/trust-loader-config trust-loader-config
 COPY --chown=1000:1000 aliasSSIPatches ./
-COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md ./
 
 RUN printf 'npm run server & \n sleep 1m \n node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js epi-ssapps-and-wallets-build"' >> execute-build.sh
 RUN cat execute-build.sh
