@@ -15,7 +15,7 @@ COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/reporting-service reporting-service
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/node_modules node_modules
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
 
-RUN printf 'npm run server & \n tail -f /dev/null' >> run.sh
+RUN printf 'node privatesky/psknode/bin/scripts/pskApiHubLauncher.js & \n tail -f /dev/null' >> run.sh
 RUN cat run.sh
 
 EXPOSE 8080/tcp
