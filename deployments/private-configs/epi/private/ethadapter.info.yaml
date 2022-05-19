@@ -1,0 +1,9 @@
+image:
+  # -- The repository of the container image
+  repository: "pharmaledger/ethadapter"
+  # -- Image Pull Policy
+  pullPolicy: Always
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: "1.0.2"
+
+smartContractInfoName: "anchoring.json"

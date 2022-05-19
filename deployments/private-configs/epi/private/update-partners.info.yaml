@@ -1,0 +1,6 @@
+use_case:
+  updatePartnersInfo:
+    enabled: true
+    peers: [
+      "company2"
+    ]
