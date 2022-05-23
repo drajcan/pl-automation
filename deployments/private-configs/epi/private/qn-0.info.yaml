@@ -1,6 +1,6 @@
 deployment:
   # -- The name of the company that makes the deployment
-  company: "company2"
+  company: "oracle"
   # -- The name of the use case that is being deployed
   network_name: "epidev"
   # -- The Quorum node public ip address (ingress Quorum node address)
