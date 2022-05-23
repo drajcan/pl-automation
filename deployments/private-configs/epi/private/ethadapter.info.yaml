@@ -6,4 +6,5 @@ image:
   # -- Overrides the image tag whose default is the chart appVersion.
   tag: "1.0.2"
 
+fullnameOverride: "ethadapter"
 smartContractInfoName: "anchoring.json"
