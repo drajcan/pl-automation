@@ -2,5 +2,4 @@ use_case:
   updatePartnersInfo:
     enabled: true
     peers: [
-      "axl_partner_1", "axl_partner_2"
-    ]
+     ]
