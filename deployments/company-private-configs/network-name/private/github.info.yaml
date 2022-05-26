@@ -1,14 +1,15 @@
 git_shared_configuration:
   # -- shared github repository name eg. PharmaLedger-IMI/epi-shared-configuration
-  repository_name: ""
+  repository_name: "skutner/shared-repository"
   # -- github read-write token
-  read_write_token: ""
+  read_write_token: "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"
+
 git_upload:
   # --  Enable the automatic upload to the use case shared repository of the shareable data
   enabled: true
   # -- The email used by the git in order to upload the data
-  email: ""
+  email: "sava.dumitru.daniel@gmail.com"
   # -- The user used by the git in order to upload the data
-  user: ""
+  user: "skutner"
   git_repo_storage_path: "networks"
 

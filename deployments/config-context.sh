@@ -1,9 +1,11 @@
 NEW_NETWORK_DIR="./new-network"
 JOIN_NETWORK_DIR="./join-network"
-advancedFolder="../private-configs/epi/private/advanced"
-privateFolder="../private-configs/epi/private"
-qnPath="../private-configs/epi/private/advanced/quorum-node"
-ethPath="../private-configs/epi/private/advanced/ethadapter"
+STANDALONE_QUORUM_DIR="./standalone-quorum"
+NETWORK_CONFIG_PATH=$COMPANY_NAME/$NETWORK_NAME
+privateFolder=$NETWORK_CONFIG_PATH/private
+advancedFolder=$privateFolder/advanced
+qnPath=$advancedFolder/quorum-node
+ethPath=$advancedFolder/ethadapter
 epiPath=$advancedFolder/epi
 qnValuesPath=$qnPath/my-values.yaml
 ghInfoPath=$privateFolder/github.info.yaml

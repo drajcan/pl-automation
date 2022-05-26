@@ -1,17 +1,28 @@
-. ../constants.sh
-JOIN_NETWORK_DIR="$JOIN_NETWORK_DIR-$1"
-if test -d $JOIN_NETWORK_DIR; then
-  rm -rf $JOIN_NETWORK_DIR
+if [ $# == 0 ]; then
+  echo "Expected 1 argument: the company name"
+  exit
 fi
-
-mkdir $JOIN_NETWORK_DIR
+COMPANY_NAME=$1
+. $COMPANY_NAME/tmp/config-context.sh
+touch $COMPANY_NAME/tmp/join
 helm show values pharmaledger-imi/quorum-node > $qnValuesPath
-helm pl-plugin --joinNetwork -i $qnValuesPath $joinNetworkInfo $ghInfoPath $qnInfoPath -o $JOIN_NETWORK_DIR
+echo "deployment:" >>  $COMPANY_NAME/tmp/deployment.yaml
+echo "company: \"$COMPANY_NAME\"" >>  $COMPANY_NAME/tmp/deployment.yaml
+sed -i 's/\(company\)/\  \1/' $COMPANY_NAME/tmp/deployment.yaml
+echo "network_name: \"$NETWORK_NAME\"" >>  $COMPANY_NAME/tmp/deployment.yaml
+sed -i 's/\(network_name\)/\  \1/' $COMPANY_NAME/tmp/deployment.yaml
 
-helm upgrade --install --wait --timeout=600s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo --set-file use_case.joinNetwork.plugin_data_common=$JOIN_NETWORK_DIR/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$JOIN_NETWORK_DIR/join-network.plugin.secrets.json
-echo "deployment:" >>  $JOIN_NETWORK_DIR/enode_address.yaml
-enode_address=$(kubectl get svc quorum-p2p -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-deployment_entry="enode_address: \"$enode_address\""
-sed -i "1 a\  ${deployment_entry}" $JOIN_NETWORK_DIR/enode_address.yaml
-cat $qnInfoPath | grep "company" >>  $JOIN_NETWORK_DIR/enode_address.yaml
-helm upgrade --install --wait --timeout=600s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $JOIN_NETWORK_DIR/enode_address.yaml --set-file use_case.joinNetwork.plugin_data_common=$JOIN_NETWORK_DIR/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$JOIN_NETWORK_DIR/join-network.plugin.secrets.json
+helm pl-plugin --joinNetwork -i $qnValuesPath $joinNetworkInfo $ghInfoPath $qnInfoPath $COMPANY_NAME/tmp/deployment.yaml -o $COMPANY_NAME/tmp
+
+helm upgrade --install qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $COMPANY_NAME/tmp/deployment.yaml --set-file use_case.joinNetwork.plugin_data_common=$COMPANY_NAME/tmp/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$COMPANY_NAME/tmp/join-network.plugin.secrets.json && sleep 30
+echo $qnInfoPath
+cat $qnInfoPath
+qnPort=$(cat $qnInfoPath | grep enode_address_port: | awk '{print $2}' | tr -d '"')
+echo $qnPort
+enodeAddress=$(kubectl get svc | grep $qnPort | awk '{print $4}')
+echo $enodeAddress
+enodeAddress="enode_address: \"$enodeAddress\""
+echo $enodeAddress
+echo $enodeAddress >>  $COMPANY_NAME/tmp/deployment.yaml
+sed -i 's/\(enode_address\)/\  \1/' $COMPANY_NAME/tmp/deployment.yaml
+helm upgrade --install qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $COMPANY_NAME/tmp/deployment.yaml --set-file use_case.joinNetwork.plugin_data_common=$COMPANY_NAME/tmp/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$COMPANY_NAME/tmp/join-network.plugin.secrets.json
