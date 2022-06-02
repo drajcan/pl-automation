@@ -6,15 +6,14 @@ fi
 COMPANY_NAME=$1
 NETWORK_NAME=$2
 
-if test -d $COMPANY_NAME; then
-  rm -rf $COMPANY_NAME
-fi
-
-mkdir $COMPANY_NAME
-mkdir $COMPANY_NAME/$NETWORK_NAME
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
-cp -r $SCRIPT_DIR/../company-private-configs/network-name/* $COMPANY_NAME/$NETWORK_NAME
 
+if [[ ! -d $COMPANY_NAME ]]; then
+  echo "Company does not exist"
+  mkdir $COMPANY_NAME
+  mkdir $COMPANY_NAME/$NETWORK_NAME
+  cp -r $SCRIPT_DIR/../company-private-configs/network-name/* $COMPANY_NAME/$NETWORK_NAME
+fi
 
 CONST_PATH=../config-context.sh
 SET_CONTEXT_PATH=$(realpath $SCRIPT_DIR/$CONST_PATH)
