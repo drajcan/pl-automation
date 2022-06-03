@@ -8,7 +8,7 @@ COMPANY_NAME=$1
 if test -f $COMPANY_NAME/tmp/ethadapter-values.yaml; then
   rm -f $COMPANY_NAME/tmp/ethadapter-values.yaml
 fi
-
+helm show values pharmaledger-imi/ethadapter > $ethValuesPath
 echo "smart_contract_shared_configuration:" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
 cat $ghInfoPath | grep "repository_name\|read_write_token" >> $COMPANY_NAME/tmp/ethadapter-values.yaml
 cat $ethInfoPath | grep "smartContractInfoName" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
