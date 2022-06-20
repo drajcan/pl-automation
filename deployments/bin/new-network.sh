@@ -5,7 +5,7 @@ fi
 COMPANY_NAME=$1
 . $COMPANY_NAME/tmp/config-context.sh
 
-helm show values pharmaledger-imi/quorum-node > $qnValuesPath
+helm show values /home/skutner/WebstormProjects/work/helm-charts/charts/quorum-node > $qnValuesPath
 echo "deployment:" >>  $COMPANY_NAME/tmp/deployment.yaml
 echo "company: \"$COMPANY_NAME\"" >>  $COMPANY_NAME/tmp/deployment.yaml
 sed -i 's/\(company\)/\  \1/' $COMPANY_NAME/tmp/deployment.yaml
