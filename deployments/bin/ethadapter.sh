@@ -9,10 +9,12 @@ if test -f $COMPANY_NAME/tmp/ethadapter-values.yaml; then
   rm -f $COMPANY_NAME/tmp/ethadapter-values.yaml
 fi
 helm show values pharmaledger-imi/ethadapter > $ethValuesPath
-echo "smart_contract_shared_configuration:" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
-cat $ghInfoPath | grep "repository_name\|read_write_token" >> $COMPANY_NAME/tmp/ethadapter-values.yaml
-cat $ethInfoPath | grep "smartContractInfoName" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
-sed -i 's/\(smartContractInfoName\)/\  \1/' $COMPANY_NAME/tmp/ethadapter-values.yaml
+if [ ! -f $COMPANY_NAME/tmp/ethadapter-values.yaml ]; then
+  echo "smart_contract_shared_configuration:" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
+  cat $ghInfoPath | grep "repository_name\|read_write_token" >> $COMPANY_NAME/tmp/ethadapter-values.yaml
+  cat $ethInfoPath | grep "smartContractInfoName" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
+  sed -i 's/\(smartContractInfoName\)/\  \1/' $COMPANY_NAME/tmp/ethadapter-values.yaml
+fi
 echo "network_name: \"$NETWORK_NAME\"" > $COMPANY_NAME/tmp/networkName.yaml
 
 helm pl-plugin --ethAdapter -i $ethValuesPath $ghInfoPath $ethServicePath $qnInfoPath $smartContractInfoPath $ethInfoPath $COMPANY_NAME/tmp/ethadapter-values.yaml $COMPANY_NAME/tmp/rpc-address.yaml $COMPANY_NAME/tmp/networkName.yaml -o $COMPANY_NAME/tmp

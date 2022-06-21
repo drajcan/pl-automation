@@ -14,6 +14,5 @@ fi
 echo "config:" >>  $COMPANY_NAME/tmp/eth-adapter-url.yaml
 entry="ethadapterUrl: \"$ethAdapterUrl\""
 sed -i "1 a\  ${entry}" $COMPANY_NAME/tmp/eth-adapter-url.yaml
-echo $ethAdapterUrl
 helm upgrade --install --wait --timeout=600s epi pharmaledger-imi/epi -f $epiInfoPath -f $epiServicePath -f $COMPANY_NAME/tmp/eth-adapter-url.yaml
 rm -rf $COMPANY_NAME/tmp
