@@ -15,6 +15,16 @@ if [ ! -f $COMPANY_NAME/tmp/ethadapter-values.yaml ]; then
   cat $ethInfoPath | grep "smartContractInfoName" >>  $COMPANY_NAME/tmp/ethadapter-values.yaml
   sed -i 's/\(smartContractInfoName\)/\  \1/' $COMPANY_NAME/tmp/ethadapter-values.yaml
 fi
+
+if [ ! -f $COMPANY_NAME/tmp/rpc-address.yaml ]; then
+  validatorName=$(kubectl get svc | grep 8545 | awk '{print $1}')
+  validatorName=($validatorName)
+  rpc_address=http://$validatorName:8545
+  echo "config:" >>  $COMPANY_NAME/tmp/rpc-address.yaml
+  entry="rpcAddress: \"$rpc_address\""
+  sed -i "1 a\  ${entry}" $COMPANY_NAME/tmp/rpc-address.yaml
+fi
+
 echo "network_name: \"$NETWORK_NAME\"" > $COMPANY_NAME/tmp/networkName.yaml
 
 helm pl-plugin --ethAdapter -i $ethValuesPath $ghInfoPath $ethServicePath $qnInfoPath $smartContractInfoPath $ethInfoPath $COMPANY_NAME/tmp/ethadapter-values.yaml $COMPANY_NAME/tmp/rpc-address.yaml $COMPANY_NAME/tmp/networkName.yaml -o $COMPANY_NAME/tmp
