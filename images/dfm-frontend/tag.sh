@@ -1,0 +1,2 @@
+. values.sh
+docker tag $DFM_FRONTEND_REPO_NAME:latest $DFM_FRONTEND_REPO_NAME:$VERSION
