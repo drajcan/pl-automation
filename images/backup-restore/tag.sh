@@ -1,0 +1,2 @@
+. values.sh
+docker tag $BACKUP_RESTORE_REPO_NAME:latest $BACKUP_RESTORE_REPO_NAME:$VERSION
