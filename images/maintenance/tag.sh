@@ -1,0 +1,2 @@
+. values.sh
+docker tag $MAINTENANCE_REPO_NAME:latest $MAINTENANCE_REPO_NAME:$VERSION
