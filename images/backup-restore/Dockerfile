@@ -16,9 +16,14 @@ RUN aws --version
 RUN node --version
 RUN npm --version
 
+RUN groupadd -g 1000 -o node
+RUN useradd -m -u 1000 -g 1000 -o -s /bin/sh node
 ENV TARGET_FOLDER_NAME="backup-restore"
 RUN git clone https://github.com/OpenDSU/backup-restore-server.git $TARGET_FOLDER_NAME
+RUN chown -R node:node $TARGET_FOLDER_NAME
 WORKDIR $TARGET_FOLDER_NAME
+
+USER node
 
 RUN npm install
 
