@@ -1,0 +1,8 @@
+image:
+  repository: "pharmaledger/backup-restore"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.0.0"
+
+  # <!-- # pragma: allowlist secret -->
+  sha: "864e733f2cd11ebd6d7b45b456813f41e9b83c9b10fa84947a65aace6c142b36"  # pragma: allowlist secret
