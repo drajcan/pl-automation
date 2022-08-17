@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pla-health-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/default-backend: epi
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 1m
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: "1024m"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header Access-Control-Allow-Methods "POST, GET, OPTIONS, PUT, DELETE, HEAD, CONNECT, TRACE, PATCH";
+      add_header Access-Control-Allow-Credentials true;
+      add_header Access-Control-Allow-Headers "Content-Type, Content-Length, X-Content-Length, Access-Control-Allow-Origin, User-Agent, authorization, Authorization, x-signature, token, epiProtocolVersion, getProductData";
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - admin.pla.health
+      secretName: pla.health
+  rules:
+    - host: "*.pla.health"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: epi
+                port:
+                  number: 80
