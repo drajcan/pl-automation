@@ -3,7 +3,9 @@
 # This (base) image is never being used at runtime and will not be deployed anywhere.
 # It is an important part of the multi-stage docker build for "builder" and the "runner" image.
 #
-FROM node:16.14.2 AS base
+ARG NODE_ALPINE_BASE_IMAGE=node:16.17.0-alpine
+ARG NODE_BASE_IMAGE=node:16.17.0
+FROM $NODE_BASE_IMAGE as base
 
 # GIT_BRANCH=Branch/Tag/Commit Hash to clone from https://github.com/PharmaLedger-IMI/epi-workspace - Defaults to master
 ARG GIT_BRANCH
@@ -26,7 +28,7 @@ RUN find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name
 # Sample for building:
 # docker build --target=builder --build-arg GIT_BRANCH=master -t epi:master-builder --rm=false --pull --network host -f=Dockerfile .
 #
-FROM node:16.14.2-alpine as builder
+FROM $NODE_ALPINE_BASE_IMAGE as builder
 
 WORKDIR "/ePI-workspace"
 ARG SOURCE="/tmp/epi"
@@ -60,7 +62,7 @@ CMD /bin/sh execute-build.sh
 # Sample for building:
 # docker build --target=runner --build-arg GIT_BRANCH=master -t epi:master-runner --rm=false --pull --network host -f=Dockerfile .
 #
-FROM node:16.14.2-alpine as runner
+FROM $NODE_ALPINE_BASE_IMAGE as runner
 
 WORKDIR "/ePI-workspace"
 ARG SOURCE="/tmp/epi"

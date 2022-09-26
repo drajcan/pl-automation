@@ -1,4 +1,5 @@
-FROM node:16.14.2-alpine
+ARG BASE_IMAGE=node:16.17.0-alpine
+FROM $BASE_IMAGE
 
 # Switch to prexisting user 'node'
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user

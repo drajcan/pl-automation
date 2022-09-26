@@ -1,4 +1,5 @@
-FROM node:16.14.2-alpine
+ARG NODE_ALPINE_BASE_IMAGE=node:16.17.0-alpine
+FROM $NODE_ALPINE_BASE_IMAGE
 
 WORKDIR "/ePI-workspace"
 ENV SOURCE_FOLDER_NAME="tmp/epi"

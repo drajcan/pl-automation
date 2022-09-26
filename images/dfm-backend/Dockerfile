@@ -1,4 +1,5 @@
-FROM node:14.16-buster
+ARG NODE_BUSTER_BASE_IMAGE=node:16.17.0-buster
+FROM $NODE_BUSTER_BASE_IMAGE
 
 RUN apt update
 

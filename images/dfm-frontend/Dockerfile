@@ -1,6 +1,6 @@
 # Stage 1 - build prod files inside docker - runs one level above
-FROM node:14.16-buster as build-step
-
+ARG NODE_BUSTER_BASE_IMAGE=node:16.17.0-buster
+FROM $NODE_BUSTER_BASE_IMAGE as build-step
 
 ENV TARGET_FOLDER_NAME="acdc-workspace"
 RUN git clone https://github.com/PharmaLedger-IMI/acdc-components.git $TARGET_FOLDER_NAME
