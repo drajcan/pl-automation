@@ -3,7 +3,9 @@ NODE_BASE_IMAGE='node:16.17.0'
 HUB_IDENTIFIER='docker.io'
 BUILDER_NAME='epi-builder'
 BUILDER_REPO_NAME='pharmaledger/epi-builder'
-VERSION='1.5.4-rc'
+if [[ -z "$VERSION" ]]; then
+  VERSION='1.5.4'
+fi
 RUNNER_NAME='epi-runner'
 BUILD_TYPE='dev'
 RUNNER_REPO_NAME='pharmaledger/epi-runner'
