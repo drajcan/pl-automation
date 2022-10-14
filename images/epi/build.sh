@@ -1,6 +1,7 @@
 git clone http://github.com/pharmaledger-imi/epi-workspace tmp/epi
 cd tmp/epi
-. ../../values.sh
+chmod +x ../../values.sh 
+source ../../values.sh
 if [ "$BUILD_TYPE" == "dev" ]; then
   echo "npm run dev-install"
   npm run dev-install
