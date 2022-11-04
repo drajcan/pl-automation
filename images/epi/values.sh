@@ -1,3 +1,5 @@
+#!/bin/bash
+echo "Setting variables ..."
 NODE_ALPINE_BASE_IMAGE='node:16.17.0-alpine'
 NODE_BASE_IMAGE='node:16.17.0'
 HUB_IDENTIFIER='docker.io'

@@ -41,6 +41,7 @@ jobs:
         run: |
              chmod +x images/epi/build.sh
              images/epi/build.sh
+        shell: bash
         env:
           VERSION: ${{github.event.inputs.version}}
           
