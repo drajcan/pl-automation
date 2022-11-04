@@ -2,7 +2,7 @@ git clone http://github.com/pharmaledger-imi/epi-workspace tmp/epi
 cd tmp/epi
 rm -rf ethadapter
 git clone http://github.com/skutner/eth-adapter ethadapter
-npm run dev-install
+npm install
 node ./node_modules/octopus/scripts/setEnv --file=../../../env.json "node ./bin/octopusRun.js postinstall"
 
 cd ./ethadapter/EthAdapter

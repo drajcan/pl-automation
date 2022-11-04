@@ -9,13 +9,12 @@ ENV SOURCE_FOLDER_NAME="tmp/epi"
 
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/apihub-root apihub-root
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/bin bin
-COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/cardinal cardinal
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/demiurge demiurge
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/dsu-fabric-ssapp dsu-fabric-ssapp
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-dsu-wizard gtin-dsu-wizard
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-resolver gtin-resolver
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/leaflet-ssapp leaflet-ssapp
-COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/privatesky privatesky
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/opendsu-sdk opendsu-sdk
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/reporting-service reporting-service
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/themes themes
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/webcardinal webcardinal

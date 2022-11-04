@@ -35,7 +35,7 @@ WORKDIR "/ePI-workspace"
 ARG SOURCE="/tmp/epi"
 
 COPY --from=base $SOURCE/ethadapter ethadapter
-COPY --from=base $SOURCE/privatesky privatesky
+COPY --from=base $SOURCE/opendsu-sdk opendsu-sdk
 
 WORKDIR /ePI-workspace/ethadapter/EthAdapter
 

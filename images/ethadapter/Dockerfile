@@ -5,7 +5,7 @@ WORKDIR "/ePI-workspace"
 ENV SOURCE_FOLDER_NAME="tmp/epi"
 
 COPY $SOURCE_FOLDER_NAME/ethadapter ethadapter
-COPY $SOURCE_FOLDER_NAME/privatesky privatesky
+COPY $SOURCE_FOLDER_NAME/opendsu-sdk opendsu-sdk
 
 WORKDIR /ePI-workspace/ethadapter/EthAdapter
 

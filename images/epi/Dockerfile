@@ -41,7 +41,7 @@ COPY --from=base ${SOURCE}/dsu-fabric-ssapp dsu-fabric-ssapp
 COPY --from=base ${SOURCE}/gtin-dsu-wizard gtin-dsu-wizard
 COPY --from=base ${SOURCE}/gtin-resolver gtin-resolver
 COPY --from=base ${SOURCE}/leaflet-ssapp leaflet-ssapp
-COPY --from=base ${SOURCE}/privatesky privatesky
+COPY --from=base ${SOURCE}/opendsu-sdk opendsu-sdk
 COPY --from=base ${SOURCE}/reporting-service reporting-service
 COPY --from=base ${SOURCE}/themes themes
 COPY --from=base ${SOURCE}/webcardinal webcardinal
@@ -68,7 +68,7 @@ WORKDIR "/ePI-workspace"
 ARG SOURCE="/tmp/epi"
 
 COPY --from=base ${SOURCE}/apihub-root apihub-root
-COPY --from=base ${SOURCE}/privatesky privatesky
+COPY --from=base ${SOURCE}/opendsu-sdk opendsu-sdk
 COPY --from=base ${SOURCE}/gtin-resolver gtin-resolver
 COPY --from=base ${SOURCE}/gtin-dsu-wizard gtin-dsu-wizard
 COPY --from=base ${SOURCE}/reporting-service reporting-service

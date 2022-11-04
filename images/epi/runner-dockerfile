@@ -9,14 +9,14 @@ WORKDIR "/ePI-workspace"
 ENV SOURCE_FOLDER_NAME="tmp/epi"
 
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/apihub-root apihub-root
-COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/privatesky privatesky
+COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/opendsu-sdk opendsu-sdk
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-resolver gtin-resolver
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/gtin-dsu-wizard gtin-dsu-wizard
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/reporting-service reporting-service
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/node_modules node_modules
 COPY --chown=1000:1000 $SOURCE_FOLDER_NAME/octopus.json $SOURCE_FOLDER_NAME/octopus-freeze.json $SOURCE_FOLDER_NAME/package.json $SOURCE_FOLDER_NAME/env.json $SOURCE_FOLDER_NAME/.npmrc $SOURCE_FOLDER_NAME/README.md .
 
-RUN printf 'node privatesky/psknode/bin/scripts/pskApiHubLauncher.js & \n tail -f /dev/null' >> run.sh
+RUN printf 'node opendsu-sdk/psknode/bin/scripts/pskApiHubLauncher.js & \n tail -f /dev/null' >> run.sh
 RUN cat run.sh
 
 EXPOSE 8080/tcp
