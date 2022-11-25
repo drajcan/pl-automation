@@ -18,6 +18,7 @@ cd pl-automation
 ```
 ## GitHub Configuration
 Configure ./"my-company-name"/"sandbox-network-name"/private/github.info.yaml for the created repo access
+![image](https://user-images.githubusercontent.com/35995331/203970385-a49da4e1-b9d6-41ec-8d5d-4922db99df11.png)
 
 ## Deploy standalone quorum network
 Execute:
