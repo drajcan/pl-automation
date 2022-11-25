@@ -11,25 +11,18 @@ helm plugin install https://github.com/PharmaLedger-IMI/helm-pl-plugin
 ```bash
 helm repo add pharmaledger-imi https://pharmaledger-imi.github.io/helm-charts
 ```
-# Join blockchain network 
+# Join shared blockchain network 
 https://github.com/PharmaLedger-IMI/pl-automation/blob/master/docs/joinShared.md
 
-# Usage to build images
-## clone this repo
-## edit your company_configs/install.cfg 
-   install.cfg shoudl contain: use case workspace repo link, docker repo authentication, 
+# Create sandboxed  network (1 cluster for 4 quorum nodes and ApiHub)
+https://github.com/PharmaLedger-IMI/pl-automation/blob/master/docs/createSanbox.md
 
-## run ./install.sh
-## run ./buildImages.sh
+# Create shared blockchain network (1 node for each company)
+https://github.com/PharmaLedger-IMI/pl-automation/blob/master/docs/createShared.md
 
+# Restore shared or sandbox blockchain network 
+https://github.com/PharmaLedger-IMI/pl-automation/blob/master/docs/restore.md
 
-# Usage for deployment
-## install helm-plugin 
-## install helm-charts
-## clone the shared use case congifs in  shared_configs
-## clone the company specific configs in company_confg folder 
-## customise those configs (manual editing)
-## install each use cases as descipbe din the helm-chart repo using the predefined scripts
+# How to build images 
 
- 
 
