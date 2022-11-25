@@ -43,3 +43,14 @@ When everything is complete, a Pull Request to Pharmaledger-IMI/epi-shared-confi
 ./deployments/bin/update-partners.sh "my-company-name"
 ```
 3. For each new node addition, peers and validators can be updated by simply updating update-partners.info.yaml file and executing this script again
+
+## Deploy ethereum adapter
+Execute:
+```shell
+./deployments/bin/ethadapter.sh "my-company-name" 
+```
+## Deploy epi
+1. Configure ./"my-company-name"/"sandbox-network-name"/private/epi.info.yaml which are the values for epi helm chart
+2. Execute:
+```shell
+./deployments/bin/apihub.sh "my-company-name"
