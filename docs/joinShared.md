@@ -17,8 +17,8 @@ cd pl-automation
 ./deployments/bin/init.sh "my-company-name" "shared-network-name" 
 ```
 ## GitHub & Quorum Configuration
-1. Configure ../bin/"my-company-name"/"shared-network-name"/private/github.info.yaml for forked repo access
-2. Populate ../bin/"my-company-name"/"shared-network-name"/private/qn-0.info.yaml with desired quorum node helm chart values to be overwritten (values omitted will be defaulted) 
+1. Configure ./"my-company-name"/"shared-network-name"/private/github.info.yaml for forked repo access
+2. Populate ./"my-company-name"/"shared-network-name"/private/qn-0.info.yaml with desired quorum node helm chart values to be overwritten (values omitted will be defaulted) 
 
 ## Generate enode information
 1. Execute:
