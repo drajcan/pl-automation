@@ -1,4 +1,4 @@
 # overwrites service
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 3000

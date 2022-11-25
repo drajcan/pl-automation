@@ -2,4 +2,4 @@
 service:
   p2p:
     # NodePort, LoadBalancer, ClusterIP
-    type: LoadBalancer
+    type: ClusterIP
