@@ -22,7 +22,7 @@ helm repo add pharmaledger-imi https://pharmaledger-imi.github.io/helm-charts
 ```shell
 cd path_to_pl_automation_clone
 ```
-3 Initalise company directory for appropriate network by executing:
+3 Initialise company directory for appropriate network by executing:
 ```shell
 ./deployments/bin/init.sh <company-directory-name> <network-name> 
 ```
