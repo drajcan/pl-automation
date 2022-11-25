@@ -50,7 +50,7 @@ Execute:
 ./deployments/bin/ethadapter.sh "my-company-name" 
 ```
 ## Deploy epi
-1. Configure ./"my-company-name"/"sandbox-network-name"/private/epi.info.yaml which are the values for epi helm chart
+1. Configure ./"my-company-name"/"shared-network-name"/private/epi.info.yaml which are the values for epi helm chart
 2. Execute:
 ```shell
 ./deployments/bin/apihub.sh "my-company-name"
