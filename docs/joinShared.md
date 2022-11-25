@@ -49,3 +49,13 @@ When everything is complete, a Pull Request to Pharmaledger-IMI/epi-shared-confi
   
 2. When everything is complete, a Pull Request to Pharmaledger-IMI/epi-shared-configuration should be created for review by the repo admin
 
+## Deploy ethereum adapter
+Execute:
+```shell
+./deployments/bin/ethadapter.sh "my-company-name" 
+```
+## Deploy epi
+1. Configure ./"my-company-name"/"shared-network-name"/private/epi.info.yaml which are the values for epi helm chart
+2. Execute:
+```shell
+./deployments/bin/apihub.sh "my-company-name"
