@@ -8,7 +8,9 @@ Following components should be pre-installed:
 ```bash
 helm repo add pharmaledger-imi https://pharmaledger-imi.github.io/helm-charts
 ```
-3. Helm pl-plugin ( https://github.com/PharmaLedger-IMI/helm-pl-plugin )
+3. Install aws cli - Optional ( https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html )
+4. Install doctl (Digital Ocean cli) - Optional ( https://docs.digitalocean.com/reference/doctl/how-to/install/ )
+6. Helm pl-plugin ( https://github.com/PharmaLedger-IMI/helm-pl-plugin )
 ```shell
 helm plugin install https://github.com/PharmaLedger-IMI/helm-pl-plugin
 ```
