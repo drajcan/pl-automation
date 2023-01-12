@@ -7,7 +7,7 @@ COMPANY_NAME=$1
 
 ethAdapterName=$(cat $ethInfoPath | grep "fullnameOverride" | awk '{print $2}' | tr -d '"')
 ethAdapterPort=$(cat $ethServicePath | grep "port" | awk '{print $2}')
-ethAdapterUrl=http://$(kubectl get svc $ethAdapterName | grep $ethAdapterName | awk '{print $4}'):$ethAdapterPort
+ethAdapterUrl=http://$(kubectl get svc $ethAdapterName | grep $ethAdapterName | awk '{print $3}'):$ethAdapterPort
 if test -f $COMPANY_NAME/tmp/eth-adapter-url.yaml; then
   rm -f $COMPANY_NAME/tmp/eth-adapter-url.yaml
 fi
@@ -15,4 +15,3 @@ echo "config:" >>  $COMPANY_NAME/tmp/eth-adapter-url.yaml
 entry="ethadapterUrl: \"$ethAdapterUrl\""
 sed -i "1 a\  ${entry}" $COMPANY_NAME/tmp/eth-adapter-url.yaml
 helm upgrade --install --wait --timeout=600s epi pharmaledger-imi/epi -f $epiInfoPath -f $epiServicePath -f $COMPANY_NAME/tmp/eth-adapter-url.yaml
-rm -rf $COMPANY_NAME/tmp
