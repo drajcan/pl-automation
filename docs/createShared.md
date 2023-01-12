@@ -15,6 +15,22 @@ cd pl-automation
 3. Initialise company directory for appropriate network by executing:
 ```shell
 ./deployments/bin/init.sh "my-company-name" "shared-network-name" 
+
+Note!!!
+For macOS if this above command throw an error execute folowing steps:
+ a. brew install gnu-sed
+ b. brew info gnu-sed
+ this will give a result like : 
+     brew info gnu-sed (snippet)
+    ==> Caveats
+    GNU "sed" has been installed as "gsed".
+    If you need to use it as "sed", you can add a "gnubin" directory
+    to your PATH from your bashrc like:
+
+        PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+ c. update the PATH (a restart is required to take the changes)
+ d. try again 
+ 
 ```
 ## GitHub & Quorum Configuration
 1. Configure ./"my-company-name"/"shared-network-name"/private/github.info.yaml for forked repo access
