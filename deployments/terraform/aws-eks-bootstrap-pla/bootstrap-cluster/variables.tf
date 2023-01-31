@@ -14,4 +14,5 @@ variable "eks_cluster_name" {
 variable "kubeconfig_filename" {
   description = "The filename of an existing kubeconfig file."
   type        = string
+  default     = "kubeconfig.yaml"
 }
