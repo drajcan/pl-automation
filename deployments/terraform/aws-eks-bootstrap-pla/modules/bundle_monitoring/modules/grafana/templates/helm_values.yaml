@@ -1,0 +1,164 @@
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: ${role_arn}
+
+## See `kubectl explain poddisruptionbudget.spec` for more
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+podDisruptionBudget:
+  maxUnavailable: 1
+
+## See `kubectl explain deployment.spec.strategy` for more
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+deploymentStrategy:
+  type: Recreate
+
+image:
+  repository: grafana/grafana
+  tag: 8.5.15  # 2022-Nov-08
+  # https://hub.docker.com/layers/grafana/grafana/8.5.15/images/sha256-5d695cd2358b5f3d508fbb82e47740d6895677ffdbcc28165d98c98b7d63fa90?context=explore
+  sha: "5d695cd2358b5f3d508fbb82e47740d6895677ffdbcc28165d98c98b7d63fa90"  # pragma: allowlist secret
+
+securityContext:
+  runAsUser: 472
+  runAsGroup: 472
+  fsGroup: 472
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  privileged: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 472
+  allowPrivilegeEscalation: false
+
+## Expose the grafana service to be accessed from outside the cluster (LoadBalancer service).
+## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+## ref: http://kubernetes.io/docs/user-guide/services/
+##
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+    # targetPort: 4181 To be used with a proxy extraContainer
+  annotations: {}
+  labels: {}
+  portName: service
+
+%{ if ingress_enabled == true }
+ingress:
+  enabled: true
+  ingressClassName: alb
+  # For full list of annotations for AWS LB Controller, see https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/annotations/
+  annotations:
+    # The name of the ALB group, can be used to configure a single ALB by multiple ingress objects
+    alb.ingress.kubernetes.io/group.name: ${ingress_group_name}
+    # Specifies the HTTP path when performing health check on targets.
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+    # Specifies the port used when performing health check on targets.
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    # Specifies the HTTP status code that should be expected when doing health checks against the specified health check path.
+    alb.ingress.kubernetes.io/success-codes: "200"
+    # Listen on HTTPS protocol at port 443 at the ALB
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    # Use target type IP which is the case if the service type is ClusterIP
+    alb.ingress.kubernetes.io/target-type: ip
+
+    #
+    # OIDC
+    #
+    alb.ingress.kubernetes.io/auth-idp-oidc: '${ingress_annotation_auth_idp_oidc}'
+    alb.ingress.kubernetes.io/auth-on-unauthenticated-request: authenticate
+    alb.ingress.kubernetes.io/auth-scope: openid
+    alb.ingress.kubernetes.io/auth-session-cookie: AWSELBAuthSessionCookie
+    alb.ingress.kubernetes.io/auth-session-timeout: "3600"
+    alb.ingress.kubernetes.io/auth-type: ${ingress_annotation_auth_type}
+  path: "/*"
+
+  # pathType is only for k8s >= 1.1=
+  pathType: ImplementationSpecific
+
+  hosts:
+    - "${host_name}"
+%{ endif }
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  type: pvc
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      isDefault: true
+      name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus.svc.cluster.local
+
+initChownData:
+  ## If false, data ownership will not be reset at startup
+  ## This allows the prometheus-server to be run with an arbitrary user
+  ##
+  enabled: false
+
+## Grafana's primary configuration
+## NOTE: values in map will be converted to ini format
+## ref: http://docs.grafana.org/installation/configuration/
+##
+grafana.ini:
+  server:
+    root_url: "https://${host_name}"
+    domain: "${host_name}"
+    enable_gzip: "true"
+  log:
+    mode: "console"
+    level: "info"
+  metrics:
+    enabled: false
+  analytics:
+    reporting_enabled: false
+    check_for_updates: false
+  auth:
+    login_maximum_inactive_lifetime_duration: "1d"
+    login_maximum_lifetime_duration: "1d"
+    oauth_auto_login: false
+    # signout_redirect_url: "https://login.microsoftonline.com/fcb2b37b-5da0-466b-9b83-0014b67a7c78/oauth2/logout?client_id=client_id"
+  auth.anonymous:
+    enabled: false
+    org_name: "MyOrg"
+    org_role: "Viewer"
+    hide_version: true
+  auth.basic:
+    enabled: false
+%{ if azuread_auth_enabled == true }
+  auth.azuread:
+    name: "${azuread_auth_settings.org_name}"
+    enabled: true
+    allow_sign_up: true
+    client_id: "${azuread_auth_settings.client_id}"
+    client_secret: "${azuread_auth_client_secret}"
+    scopes: "openid email profile"
+    auth_url: "${azuread_auth_settings.auth_url}"
+    token_url: "${azuread_auth_settings.token_url}"
+    allowed_domains: "${azuread_auth_settings.allowed_domains}"
+    allowed_groups : ""
+%{ endif }

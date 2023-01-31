@@ -1,0 +1,82 @@
+# This YAML file shows how to deploy the snapshot controller
+
+# The snapshot controller implements the control loop for CSI snapshot functionality.
+# It should be installed as part of the base Kubernetes distribution in an appropriate
+# namespace for components implementing base system functionality. For installing with
+# Vanilla Kubernetes, kube-system makes sense for the namespace.
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: snapshot-controller
+  namespace: kube-system
+  annotations:
+    "checkov.io/skip1": CKV_K8S_38=ServiceAccountToken needs to be mounted in order for the controller to work properly
+    "checkov.io/skip2": CKV_K8S_8=Liveness Probe Should be Configured
+    "checkov.io/skip3": CKV_K8S_9=Readiness Probe Should be Configured
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: snapshot-controller
+  # the snapshot controller won't be marked as ready if the v1 CRDs are unavailable
+  # in #504 the snapshot-controller will exit after around 7.5 seconds if it
+  # can't find the v1 CRDs so this value should be greater than that
+  minReadySeconds: 15
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: snapshot-controller
+    spec:
+      serviceAccountName: snapshot-controller
+      securityContext:
+        fsGroup: 65534
+        runAsGroup: 65534
+        runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        # Do not run on the same host
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - snapshot-controller
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+
+      containers:
+        - name: snapshot-controller
+          # https://console.cloud.google.com/gcr/images/k8s-staging-sig-storage/global/snapshot-controller@sha256:823c75d0c45d1427f6d850070956d9ca657140a7bbf828381541d1d808475280/details?tab=info
+          image: {{ .Values.image }}
+          args:
+            - "--v=5"
+            - "--leader-election=true"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 5m
+              memory: 50Mi
