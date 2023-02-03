@@ -14,6 +14,7 @@ if [[ ! -d $COMPANY_NAME ]]; then
 fi
 rm -rf $COMPANY_NAME/$NETWORK_NAME/tmp
 cp -rn  $SCRIPT_DIR/../company-private-configs/network-name/* $COMPANY_NAME/$NETWORK_NAME
+cp $SCRIPT_DIR/../company-private-configs/network-name/private/github.info.yaml $COMPANY_NAME/$NETWORK_NAME/private
 CONST_PATH=../config-context.sh
 SET_CONTEXT_PATH=$(realpath $SCRIPT_DIR/$CONST_PATH)
 TMP_FOLDER_PATH=$COMPANY_NAME/$NETWORK_NAME/tmp
