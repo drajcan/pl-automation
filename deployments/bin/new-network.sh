@@ -7,6 +7,9 @@ NETWORK_NAME=$2
 . $COMPANY_NAME/$NETWORK_NAME/config-context.sh
 
 helm show values pharmaledger-imi/quorum-node > $qnValuesPath
+if [ ! -d $TMP_FOLDER_PATH ]; then
+  mkdir $TMP_FOLDER_PATH
+fi
 if [ ! -f $TMP_FOLDER_PATH/deployment.yaml ]; then
   echo "deployment:" >>  $TMP_FOLDER_PATH/deployment.yaml
   echo "company: \"$COMPANY_NAME\"" >>  $TMP_FOLDER_PATH/deployment.yaml
