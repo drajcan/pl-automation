@@ -1,9 +1,10 @@
-if [ $# == 0 ]; then
-  echo "Expected 1 argument: the company name"
+if [ $# -le 1 ]; then
+  echo "Expected 2 argument: company_name and network_name"
   exit
 fi
 COMPANY_NAME=$1
-. $TMP_FOLDER_PATH/config-context.sh
+NETWORK_NAME=$2
+. $COMPANY_NAME/$NETWORK_NAME/config-context.sh
 
 ethAdapterName=$(cat $ethInfoPath | grep "fullnameOverride" | awk '{print $2}' | tr -d '"')
 ethAdapterPort=$(cat $ethServicePath | grep "port" | awk '{print $2}')

@@ -1,4 +1,4 @@
-if [ $# -le 0 ]; then
+if [ $# -le 1 ]; then
   echo "Expected 2 argument: company_name and network_name"
   exit
 fi
