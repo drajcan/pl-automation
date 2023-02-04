@@ -6,6 +6,10 @@ COMPANY_NAME=$1
 NETWORK_NAME=$2
 . $COMPANY_NAME/$NETWORK_NAME/config-context.sh
 
+if [ ! -d $TMP_FOLDER_PATH ]; then
+  mkdir $TMP_FOLDER_PATH
+fi
+
 ethAdapterName=$(cat $ethInfoPath | grep "fullnameOverride" | awk '{print $2}' | tr -d '"')
 ethAdapterPort=$(cat $ethServicePath | grep "port" | awk '{print $2}')
 ethAdapterUrl=http://$(kubectl get svc $ethAdapterName | grep $ethAdapterName | awk '{print $3}'):$ethAdapterPort
