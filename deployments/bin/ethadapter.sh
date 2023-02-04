@@ -17,6 +17,8 @@ if [ ! -f $TMP_FOLDER_PATH/ethadapter-values.yaml ]; then
   sed -i 's/\(smartContractInfoName\)/\  \1/' $TMP_FOLDER_PATH/ethadapter-values.yaml
 fi
 
+ls -la $TMP_FOLDER_PATH
+
 if [ ! -f $TMP_FOLDER_PATH/rpc-address.yaml ]; then
   validatorName=$(kubectl get svc | grep 8545 | awk '{print $1}')
   validatorName=($validatorName)
