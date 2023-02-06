@@ -6,9 +6,14 @@ COMPANY_NAME=$1
 NETWORK_NAME=$2
 . $COMPANY_NAME/$NETWORK_NAME/config-context.sh
 
+if [ ! -d $TMP_FOLDER_PATH ]; then
+  mkdir $TMP_FOLDER_PATH
+fi
+
 if test -f $TMP_FOLDER_PATH/ethadapter-values.yaml; then
   rm -f $TMP_FOLDER_PATH/ethadapter-values.yaml
 fi
+
 helm show values pharmaledger-imi/ethadapter > $ethValuesPath
 if [ ! -f $TMP_FOLDER_PATH/ethadapter-values.yaml ]; then
   echo "smart_contract_shared_configuration:" >>  $TMP_FOLDER_PATH/ethadapter-values.yaml
@@ -16,6 +21,8 @@ if [ ! -f $TMP_FOLDER_PATH/ethadapter-values.yaml ]; then
   cat $ethInfoPath | grep "smartContractInfoName" >>  $TMP_FOLDER_PATH/ethadapter-values.yaml
   sed -i 's/\(smartContractInfoName\)/\  \1/' $TMP_FOLDER_PATH/ethadapter-values.yaml
 fi
+
+ls -la $TMP_FOLDER_PATH
 
 if [ ! -f $TMP_FOLDER_PATH/rpc-address.yaml ]; then
   validatorName=$(kubectl get svc | grep 8545 | awk '{print $1}')
