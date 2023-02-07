@@ -2,8 +2,8 @@ if [ $# -le 1 ]; then
   echo "Expected 2 argument: company_name and network_name"
   exit
 fi
-NETWORK_NAME=$1
-COMPANY_NAME=$2
+COMPANY_NAME=$1
+NETWORK_NAME=$2
 . $NETWORK_NAME/$COMPANY_NAME/config-context.sh
 
 helm show values pharmaledger-imi/quorum-node > $qnValuesPath
