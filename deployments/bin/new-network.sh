@@ -4,7 +4,7 @@ if [ $# -le 1 ]; then
 fi
 COMPANY_NAME=$1
 NETWORK_NAME=$2
-. $NETWORK_NAME/$COMPANY_NAME/config-context.sh
+. $COMPANY_NAME/$NETWORK_NAME/config-context.sh
 
 helm show values pharmaledger-imi/quorum-node > $qnValuesPath
 if [ ! -d $TMP_FOLDER_PATH ]; then
