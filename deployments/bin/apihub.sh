@@ -19,4 +19,4 @@ fi
 echo "config:" >>  $TMP_FOLDER_PATH/eth-adapter-url.yaml
 entry="ethadapterUrl: \"$ethAdapterUrl\""
 sed -i "1 a\  ${entry}" $TMP_FOLDER_PATH/eth-adapter-url.yaml
-helm upgrade --install --wait --timeout=600s epi pharmaledger-imi/epi -f $epiInfoPath -f $epiServicePath -f $TMP_FOLDER_PATH/eth-adapter-url.yaml
+helm upgrade --install --debug --wait --timeout=600s epi pharmaledger-imi/epi -f $epiInfoPath -f $epiServicePath -f $TMP_FOLDER_PATH/eth-adapter-url.yaml
