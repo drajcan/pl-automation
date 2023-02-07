@@ -1,7 +1,7 @@
 NEW_NETWORK_DIR="./new-network"
 JOIN_NETWORK_DIR="./join-network"
 STANDALONE_QUORUM_DIR="./standalone-quorum"
-NETWORK_CONFIG_PATH=$NETWORK_NAME/$COMPANY_NAME
+NETWORK_CONFIG_PATH=$COMPANY_NAME/$NETWORK_NAME
 privateFolder=$NETWORK_CONFIG_PATH/private
 advancedFolder=$privateFolder/advanced
 qnPath=$advancedFolder/quorum-node
