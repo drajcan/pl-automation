@@ -5,7 +5,7 @@ fi
 COMPANY_NAME=$1
 NETWORK_NAME=$2
 . $COMPANY_NAME/$NETWORK_NAME/config-context.sh
-touch $TMP_FOLDER_PATH/join
+touch $COMPANY_NAME/$NETWORK_NAME/join
 helm show values pharmaledger-imi/quorum-node > $qnValuesPath
 if [ ! -f $TMP_FOLDER_PATH/deployment.yaml ]; then
   echo "deployment:" >>  $TMP_FOLDER_PATH/deployment.yaml

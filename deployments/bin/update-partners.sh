@@ -18,7 +18,7 @@ fi
 
 echo "network_name: \"$NETWORK_NAME\"" > $TMP_FOLDER_PATH/networkName.yaml
 
-if test -f $TMP_FOLDER_PATH/join; then
+if test -f $COMPANY_NAME/$NETWORK_NAME/join; then
   helm pl-plugin --updatePartnersInfo -i $qnValuesPath $joinNetworkInfo $ghInfoPath $qnInfoPath $TMP_FOLDER_PATH/deployment.yaml $TMP_FOLDER_PATH/networkName.yaml $updatePartnersInfo -o $TMP_FOLDER_PATH
   helm upgrade --install qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $TMP_FOLDER_PATH/deployment.yaml -f $TMP_FOLDER_PATH/networkName.yaml -f $updatePartnersInfo --set-file use_case.joinNetwork.plugin_data_common=$TMP_FOLDER_PATH/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$TMP_FOLDER_PATH/join-network.plugin.secrets.json,use_case.updatePartnersInfo.plugin_data_common=$TMP_FOLDER_PATH/update-partners-info.plugin.json
 #  rm -rf $TMP_FOLDER_PATH
