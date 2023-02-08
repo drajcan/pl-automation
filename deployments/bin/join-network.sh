@@ -17,7 +17,7 @@ fi
 
 helm pl-plugin --joinNetwork -i $qnValuesPath $joinNetworkInfo $ghInfoPath $qnInfoPath $TMP_FOLDER_PATH/deployment.yaml -o $TMP_FOLDER_PATH
 
-helm upgrade --install --wait --timeout=600s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $TMP_FOLDER_PATH/deployment.yaml --set-file use_case.joinNetwork.plugin_data_common=$TMP_FOLDER_PATH/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$TMP_FOLDER_PATH/join-network.plugin.secrets.json
+helm upgrade --install --debug --wait --timeout=600s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $ghInfoPath -f $qnInfoPath -f $joinNetworkInfo -f $TMP_FOLDER_PATH/deployment.yaml --set-file use_case.joinNetwork.plugin_data_common=$TMP_FOLDER_PATH/join-network.plugin.json,use_case.joinNetwork.plugin_data_secrets=$TMP_FOLDER_PATH/join-network.plugin.secrets.json
 enodeAddress=$(cat $qnInfoPath | grep enode_address: | awk '{print $2}' | tr -d '"')
 if [ $enodeAddress == "0.0.0.0" ]; then
   echo $qnInfoPath

@@ -20,7 +20,7 @@ fi
 
 helm pl-plugin --newNetwork -i $qnValuesPath $ghInfoPath $qnInfoPath $newNetworkService $TMP_FOLDER_PATH/deployment.yaml -o $TMP_FOLDER_PATH
 
-helm upgrade --install --wait --timeout=300s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $newNetworkService -f $qnInfoPath -f $ghInfoPath -f $TMP_FOLDER_PATH/deployment.yaml --set-file use_case.newNetwork.plugin_data_common=$TMP_FOLDER_PATH/new-network.plugin.json,use_case.newNetwork.plugin_data_secrets=$TMP_FOLDER_PATH/new-network.plugin.secrets.json
+helm upgrade --install --debug --wait --timeout=300s qn-0 pharmaledger-imi/quorum-node -f $qnValuesPath -f $newNetworkService -f $qnInfoPath -f $ghInfoPath -f $TMP_FOLDER_PATH/deployment.yaml --set-file use_case.newNetwork.plugin_data_common=$TMP_FOLDER_PATH/new-network.plugin.json,use_case.newNetwork.plugin_data_secrets=$TMP_FOLDER_PATH/new-network.plugin.secrets.json
 
 enodeAddress=$(cat $qnInfoPath | grep enode_address: | awk '{print $2}' | tr -d '"')
 if [ $enodeAddress == "0.0.0.0" ]; then
