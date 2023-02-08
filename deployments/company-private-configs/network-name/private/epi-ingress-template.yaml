@@ -15,6 +15,7 @@ metadata:
   name: pla-health-ingress
   namespace: default
 spec:
+  
   ingressClassName: nginx
   rules:
     - host: 'PLACEHOLDER_HOST'
