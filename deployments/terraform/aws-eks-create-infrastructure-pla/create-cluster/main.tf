@@ -17,6 +17,7 @@ module "cluster" {
   vpc_reuse_nat_ips                         = true                        # We provide ElasticIP for each NAT GW
   vpc_external_nat_ip_ids                   = var.vpc_external_nat_ip_ids # The ElasticIPs for the NAT GWs
   eks_aws_auth_roles                        = var.eks_aws_auth_roles
+  eks_aws_auth_users                        = var.eks_aws_auth_users
 
   # See https://github.com/terraform-aws-modules/terraform-aws-eks/tree/v18.30.2/modules/node_groups
   # https://eksctl.io/usage/autoscaling/#zone-aware-auto-scaling
